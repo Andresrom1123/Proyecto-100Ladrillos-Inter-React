@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 
-import { BankAccountsProvider } from "./context/bank_context";
+import { BankAccountsLoginProvider } from "./context/bank_account_login_context";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BankAccountsProvider>
+  <BankAccountsLoginProvider>
     <App />
-  </BankAccountsProvider>
+  </BankAccountsLoginProvider>
 );
