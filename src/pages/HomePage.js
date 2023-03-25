@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useBankAccountsLoginContext } from '../context/bank_account_login_context'
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 const HomePage = () => {
   const [data, setData] = useState({ debit: "", nip: "", repeatNip: "" });
@@ -44,6 +45,14 @@ const HomePage = () => {
     const value = e.target.value;
     setData({ ...data, [name]: value });
   };
+
+  if (login_success) {
+    return (
+      <Routes>
+        <Route path='/' element={<Navigate replace to="/menu" />} />
+      </Routes>
+    )
+  }
 
   return (
     <main className='px-5 py-3'>

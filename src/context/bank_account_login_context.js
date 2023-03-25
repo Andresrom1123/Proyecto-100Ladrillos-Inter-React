@@ -10,12 +10,21 @@ import {
   VALID_BANK_LOGIN_DEBIT_ERROR,
 } from "../actions";
 
+const getLocalStorageLoginSuccess = () => {
+  let bankAccountLogin = localStorage.getItem('bankAccountLogin')
+  if (bankAccountLogin) {
+    return JSON.parse(localStorage.getItem('bankAccountLogin'))
+  } else {
+    return ""
+  }
+}
+
 const initialState = {
   debits: [],
   debits_logged: [],
   bank_error: false,
   bank_loading: false,
-  login_success: false,
+  login_success: getLocalStorageLoginSuccess(),
   login_error: false,
   login_error_msg: '',
 };
@@ -57,6 +66,10 @@ export const BankAccountsLoginProvider = ({ children }) => {
   useEffect(() => {
     fetchDebits(url)
   }, [])
+
+  useEffect(() => {
+    localStorage.setItem('bankAccountLogin', JSON.stringify(state.login_success))
+  }, [state.login_success])
 
   return (
     <BankAccountsLoginContext.Provider value={{ ...state, postLoginBankAccount }}>

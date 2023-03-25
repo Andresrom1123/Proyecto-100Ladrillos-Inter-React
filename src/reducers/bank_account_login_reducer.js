@@ -24,7 +24,7 @@ const bank_accounts_login_reducer = (state, action) => {
     return {
       ...state,
       login_error_msg: '',
-      login_success: true,
+      login_success: action.payload,
       login_error: false,
       debits_logged: [...state.debits_logged, action.payload]
     }
