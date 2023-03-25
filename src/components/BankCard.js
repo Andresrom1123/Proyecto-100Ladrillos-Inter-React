@@ -5,7 +5,7 @@ const BankCard = ({ type }) => {
   const [data, setData] = useState({ amount: 0, debit: "" });
   const [action, setAction] = useState('');
 
-  const { postAccoutDeposit, postAccoutWithdraw } = useBankAccountsMenuContext()
+  const { postAccoutDeposit, postAccoutWithdraw, postAccoutTransfer } = useBankAccountsMenuContext()
 
   const submitForm = async (event) => {
     event.preventDefault();
@@ -14,6 +14,9 @@ const BankCard = ({ type }) => {
     }
     if (type === 'withdraw') {
       postAccoutWithdraw(data.amount)
+    }
+    if (type === 'transfer') {
+      postAccoutTransfer(data.debit, data.amount)
     }
   };
 

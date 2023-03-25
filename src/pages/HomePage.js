@@ -6,8 +6,6 @@ const HomePage = () => {
   const [data, setData] = useState({ debit: "", nip: "", repeatNip: "" });
   const {
     debits,
-    bank_error,
-    bank_loading,
     postLoginBankAccount,
     postLoggedBankAccount,
     login_error,
@@ -27,7 +25,7 @@ const HomePage = () => {
       debitsLoggedTemp = debits_logged.filter((debit) => debit === data.debit)
     }
 
-    if (debits_logged.length === 1) {
+    if (debits_logged.length === 1 && data.debit === debits_logged[0]) {
       await postLoggedBankAccount(data.debit)
     }
     if (debits) {
@@ -75,23 +73,13 @@ const HomePage = () => {
         <div className='col-lg-6 col-10 py-5 position-relative'>
           {/* alert */}
           {(errors.status || login_error) && (
-            <div className='alert warning' role="alert">
+            <div className='alert alert-danger' role="alert">
               <p>
                 {errors.msg}
               </p>
               <p>
                 {login_error_msg}
               </p>
-            </div>
-          )}
-
-          {/* loading */}
-          {bank_loading && (
-            <div
-              className="d-flex justify-content-center position-absolute"
-              style={{ top: "50%", left: "50%", color: "var(--clr-primary-5)" }}
-            >
-              <div className="spinner-border"></div>
             </div>
           )}
           <span>Escriba su número de tarjeta de débito:</span>

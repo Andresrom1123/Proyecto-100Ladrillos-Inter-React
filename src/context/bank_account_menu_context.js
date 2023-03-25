@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useReducer } from "react";
+import React, { useContext, useReducer } from "react";
 import reducer from "../reducers/bank_account_menu_reducer";
 import { base_url as url } from "../utils/constants";
 import { useBankAccountsLoginContext } from './bank_account_login_context'
@@ -9,6 +9,8 @@ import {
   POST_ACCOUNT_DEPOSIT_ERROR,
   POST_ACCOUNT_WITHDRAW_SUCCESS,
   POST_ACCOUNT_WITHDRAW_ERROR,
+  POST_ACCOUNT_TRANSFER_SUCCESS,
+  POST_ACCOUNT_TRANSFER_ERROR,
   CLOSE_ALERT
 } from "../actions";
 
@@ -47,12 +49,22 @@ export const BankAccountsMenuProvider = ({ children }) => {
     }
   }
 
+  const postAccoutTransfer = async (debit, amount) => {
+    try {
+      const response = await axios.post(`${url}transfer/${login_success}/`, {'debit': debit, 'amount': amount})
+      const { success } = response.data
+      dispatch({ type: POST_ACCOUNT_TRANSFER_SUCCESS, payload: success })
+      
+    } catch(error) {
+      dispatch({ type: POST_ACCOUNT_TRANSFER_ERROR, payload: error.response.data.error })
+    }
+  }
   const closeAlert = () => {
     dispatch({ type: CLOSE_ALERT })
   }
 
   return (
-    <BankAccountsMenuContext.Provider value={{ ...state, postAccoutDeposit, postAccoutWithdraw, closeAlert }}>
+    <BankAccountsMenuContext.Provider value={{ ...state, postAccoutDeposit, postAccoutWithdraw, closeAlert, postAccoutTransfer }}>
       {children}
     </BankAccountsMenuContext.Provider>
   );

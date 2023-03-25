@@ -3,6 +3,8 @@ import {
   POST_ACCOUNT_DEPOSIT_ERROR,
   POST_ACCOUNT_WITHDRAW_SUCCESS,  
   POST_ACCOUNT_WITHDRAW_ERROR,
+  POST_ACCOUNT_TRANSFER_SUCCESS,
+  POST_ACCOUNT_TRANSFER_ERROR,
   CLOSE_ALERT
 } from "../actions";
 
@@ -41,7 +43,22 @@ const bank_accounts_menu_reducer = (state, action) => {
       alert_active: true,
     } 
   }
-  
+  if (action.type === POST_ACCOUNT_TRANSFER_SUCCESS) {
+    return {
+      ...state,
+      alert_type: 'success',
+      alert_msg: action.payload,
+      alert_active: true,
+    } 
+  }
+  if (action.type === POST_ACCOUNT_TRANSFER_ERROR) {
+    return {
+      ...state,
+      alert_type: 'danger',
+      alert_msg: action.payload,
+      alert_active: true,
+    } 
+  }
   if (action.type === CLOSE_ALERT) {
     return {
       ...state,
