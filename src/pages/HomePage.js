@@ -9,6 +9,7 @@ const HomePage = () => {
     bank_error,
     bank_loading,
     postLoginBankAccount,
+    postLoggedBankAccount,
     login_error,
     login_success,
     login_error_msg,
@@ -19,7 +20,16 @@ const HomePage = () => {
 
   const submitForm = async (event) => {
     let debitsTemp;
+    let debitsLoggedTemp;
     event.preventDefault();
+
+    if (debits_logged) {
+      debitsLoggedTemp = debits_logged.filter((debit) => debit === data.debit)
+    }
+
+    if (debits_logged.length === 1) {
+      await postLoggedBankAccount(data.debit)
+    }
     if (debits) {
       debitsTemp = debits.filter((debit) => debit === data.debit)
     }

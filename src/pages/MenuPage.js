@@ -22,7 +22,8 @@ const MenuPage = () => {
       name: 'Transferencia'
     },
   ]
-  const { login_success } = useBankAccountsLoginContext()
+  const { login_success, logOutAccount } = useBankAccountsLoginContext()
+
   if (!(login_success)) {
     return (
       <PrivateRoute />
@@ -38,6 +39,7 @@ const MenuPage = () => {
           menu.map((m, index) => {
             return (
               <NavLink
+                  key={index}
                   to={m.url}
                   className="col-10 my-2 col-lg-6 border-0 text-white shadow rounded-bottom fs-4 btn-dark p-1 text-decoration-none text-center"
                 >
@@ -50,6 +52,7 @@ const MenuPage = () => {
         <NavLink
           to="/"
           className="col-10 my-2 col-lg-6 border-0 text-white shadow rounded-bottom fs-4 btn-dark p-1 text-decoration-none text-center"
+          onClick={() => logOutAccount()}
         >
           Salir
         </NavLink>

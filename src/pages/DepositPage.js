@@ -1,4 +1,5 @@
 import BankCard from '../components/BankCard'
+import Alert from '../components/Alert'
 import PrivateRoute from '../components/PrivateRoute'
 import { useBankAccountsLoginContext } from '../context/bank_account_login_context'
 
@@ -11,6 +12,7 @@ const DepositPage = () => {
   }
   return (
     <main className='px-5 py-3'>
+      <Alert />
       <h1 className='text-center mb-4'>
         Déposito
       </h1>

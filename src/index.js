@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 
 import { BankAccountsLoginProvider } from "./context/bank_account_login_context";
+import { BankAccountsMenuProvider } from "./context/bank_account_menu_context";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BankAccountsLoginProvider>
-    <App />
+    <BankAccountsMenuProvider>
+      <App />
+    </BankAccountsMenuProvider>
   </BankAccountsLoginProvider>
 );

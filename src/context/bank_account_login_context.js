@@ -8,6 +8,8 @@ import {
   GET_BANK_ACCOUNTS_ERROR,
   VALID_BANK_LOGIN_DEBIT_SUCCESS,
   VALID_BANK_LOGIN_DEBIT_ERROR,
+  POST_LOGGED_BANK_ACCOUNT,
+  LOG_OUT_ACCOUNT
 } from "../actions";
 
 const getLocalStorageLoginSuccess = () => {
@@ -19,9 +21,18 @@ const getLocalStorageLoginSuccess = () => {
   }
 }
 
+const getLocalStorageLoginLogged = () => {
+  let bankAccountLogged = localStorage.getItem('bankAccountLogged')
+  if (bankAccountLogged) {
+    return JSON.parse(localStorage.getItem('bankAccountLogged'))
+  } else {
+    return []
+  }
+}
+
 const initialState = {
   debits: [],
-  debits_logged: [],
+  debits_logged: getLocalStorageLoginLogged(),
   bank_error: false,
   bank_loading: false,
   login_success: getLocalStorageLoginSuccess(),
@@ -61,7 +72,13 @@ export const BankAccountsLoginProvider = ({ children }) => {
     }
   };
 
+  const postLoggedBankAccount = (debit) => {
+    dispatch({ type: POST_LOGGED_BANK_ACCOUNT, payload: debit })
+  }
 
+  const logOutAccount = () => {
+    dispatch({ type: LOG_OUT_ACCOUNT })
+  }
   
   useEffect(() => {
     fetchDebits(url)
@@ -71,8 +88,12 @@ export const BankAccountsLoginProvider = ({ children }) => {
     localStorage.setItem('bankAccountLogin', JSON.stringify(state.login_success))
   }, [state.login_success])
 
+  useEffect(() => {
+    localStorage.setItem('bankAccountLogged', JSON.stringify(state.debits_logged))
+  }, [state.debits_logged])
+
   return (
-    <BankAccountsLoginContext.Provider value={{ ...state, postLoginBankAccount }}>
+    <BankAccountsLoginContext.Provider value={{ ...state, postLoginBankAccount, postLoggedBankAccount, logOutAccount }}>
       {children}
     </BankAccountsLoginContext.Provider>
   );
